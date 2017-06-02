@@ -6,31 +6,15 @@ module.exports = function listCommand(vorpal) {
 	const tablify = require('../src/utils/tablify');
 	const util = require('util');
 
-	function isAccountQuery (input) {
+	const isAccountQuery = input => { return lisk.sendRequest('accounts', {  address: input }) };
 
-		return lisk.sendRequest('accounts', {  address: input });
+	const isBlockQuery = input => { return lisk.sendRequest('blocks/get', {  id: input }) };
 
-	}
+	const isTransactionQuery = input => { return lisk.sendRequest('transactions/get', {  id: input }) };
 
-	function isBlockQuery (input) {
+	const isDelegateQuery = input => { return lisk.sendRequest('delegates/get', {  username: input }) };
 
-		return lisk.sendRequest('blocks/get', {  id: input });
-
-	}
-
-	function isTransactionQuery (input) {
-
-		return lisk.sendRequest('transactions/get', {  id: input });
-
-	}
-
-	function isDelegateQuery (input) {
-
-		return lisk.sendRequest('delegates/get', {  username: input });
-
-	}
-
-	function switchType (type) {
+	const switchType = type => {
 		return {
 			'accounts': 'account',
 			'addresses': 'address',
@@ -38,18 +22,17 @@ module.exports = function listCommand(vorpal) {
 			'delegates': 'delegate',
 			'transactions': 'transaction'
 		}[type];
-	}
+	};
 
 	vorpal
 		.command('list <type> [variadic...]')
 		.option('-j, --json', 'Sets output to json')
 		.option('-t, --no-json', 'Sets output to text')
-
 		.description('Get information from <type> with parameters [input, input, ...].  \n Types available: accounts, addresses, blocks, delegates, transactions \n E.g. list delegates lightcurve tosch \n E.g. list blocks 5510510593472232540 16450842638530591789')
 		.autocomplete(['accounts', 'addresses', 'blocks', 'delegates', 'transactions'])
 		.action(function(userInput) {
     
-			let getType = {
+			const getType = {
 				'addresses': isAccountQuery,
 				'accounts': isAccountQuery,
 				'blocks': isBlockQuery,
@@ -64,7 +47,7 @@ module.exports = function listCommand(vorpal) {
 
 			 if(process.env.NODE_ENV === 'test') {
 
-				 return Promise.all(calls);
+				  return Promise.all(calls);
 
 			 } else {
 

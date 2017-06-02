@@ -5,17 +5,17 @@ module.exports = function setCommand (vorpal) {
 	const lisk = require('lisk-js').api(config.liskJS);
 	const fse = require('fs-extra');
 
-	function setJSON (value) {
+	const setJSON = value => {
 		config.json = value;
 		fse.writeFileSync('config.json', JSON.stringify(config, null, 2), 'utf8');
 		return {message :'successfully set json output to '+value};
-	}
+	};
 
-	function setTestnet (value) {
+	const setTestnet = value => {
 		config.liskJS.testnet = (value === "true");
 		fse.writeFileSync('config.json', JSON.stringify(config, null, 2), 'utf8');
 		return {message :'successfully set testnet to '+value};
-	}
+	};
 
 	vorpal
 		.command('set <variable> <value>')
