@@ -6,31 +6,15 @@ module.exports = function getCommand (vorpal) {
 	const tablify = require('../src/utils/tablify');
 	const util = require('util');
 
-	function isAccountQuery (input) {
+	const isAccountQuery = input => { return lisk.sendRequest('accounts', {  address: input }) };
 
-		return lisk.sendRequest('accounts', {  address: input });
+	const isBlockQuery = input => { return lisk.sendRequest('blocks/get', {  id: input }) };
 
-	}
+	const isTransactionQuery = input => { return lisk.sendRequest('transactions/get', {  id: input }) };
 
-	function isBlockQuery (input) {
+	const isDelegateQuery = input => { return lisk.sendRequest('delegates/get', {  username: input }) };
 
-		return lisk.sendRequest('blocks/get', {  id: input });
-
-	}
-
-	function isTransactionQuery (input) {
-
-		return lisk.sendRequest('transactions/get', {  id: input });
-
-	}
-
-	function isDelegateQuery (input) {
-
-		return lisk.sendRequest('delegates/get', {  username: input });
-
-	}
-
-	function switchType (type) {
+	const switchType = type => {
 		return {
 			'account': 'account',
 			'address': 'address',
@@ -38,7 +22,7 @@ module.exports = function getCommand (vorpal) {
 			'delegate': 'delegate',
 			'transaction': 'transaction'
 		}[type];
-	}
+	};
 
 	vorpal
 		.command('get <type> <input>')
@@ -48,7 +32,7 @@ module.exports = function getCommand (vorpal) {
 		.autocomplete(['account', 'address', 'block', 'delegate', 'transaction'])
 		.action(function(userInput) {
 
-			let getType = {
+			const getType = {
 				'account': isAccountQuery,
 				'address': isAccountQuery,
 				'block': isBlockQuery,
