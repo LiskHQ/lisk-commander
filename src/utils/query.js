@@ -1,10 +1,8 @@
-
-
+/* eslint-disable class-methods-use-this */
 const config = require('../../config.json');
 const lisk = require('lisk-js').api(config.liskJS);
 
 class Query {
-
   isBlockQuery(input) {
     return lisk.sendRequest('blocks/get', { id: input });
   }

@@ -1,14 +1,13 @@
 const Vorpal = require('vorpal');
 const common = require('../common');
-const sinon = common.sinon;
 const list = require('../../src/commands/list');
 const query = require('../../src/utils/query');
-const util = require('util');
 
+const sinon = common.sinon;
 const vorpal = new Vorpal();
 
 vorpal.use(list);
-vorpal.pipe(output => '');
+vorpal.pipe(() => '');
 
 describe('lisky list command palette', () => {
   it('should test command list accounts', () => {

@@ -1,34 +1,29 @@
 const Vorpal = require('vorpal');
-const common = require('../common');
 const set = require('../../src/commands/set');
 
 const vorpal = new Vorpal();
 
 vorpal.use(set);
-vorpal.pipe(output => '');
-
-function executeCommand(command, callback) {
-  vorpal.exec(command, function (err, data) {
-    if (!err) {
-      return callback(this);
-    }
-    return err;
-  });
-}
+vorpal.pipe(() => '');
 
 describe('set command', () => {
   describe('should exist', () => {
+    // eslint-disable-next-line no-underscore-dangle
     const filterCommand = vorpalCommand => vorpalCommand._name === 'set';
 
     const exists = vorpal.commands.filter(filterCommand);
 
     it('should be available', () => {
+      // eslint-disable-next-line no-underscore-dangle
       (exists[0]._args).should.be.length(2);
+      // eslint-disable-next-line no-underscore-dangle
       (exists[0]._name).should.be.equal('set');
     });
 
     it('should have 2 require inputs', () => {
+      // eslint-disable-next-line no-underscore-dangle
       (exists[0]._args[0].required).should.be.true();
+      // eslint-disable-next-line no-underscore-dangle
       (exists[0]._args[1].required).should.be.true();
     });
   });

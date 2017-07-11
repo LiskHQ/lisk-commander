@@ -1,14 +1,11 @@
-const common = require('../common');
 const query = require('../../src/utils/query');
 
 function createSpy(targetFunc) {
-  const spy = function () {
-    spy.args = arguments;
-    spy.returnValue = targetFunc.apply(this, arguments);
+  return function spy(...args) {
+    spy.args = args;
+    spy.returnValue = targetFunc.apply(this, args);
     return spy.returnValue;
   };
-
-  return spy;
 }
 
 describe('query class with different parameters', () => {
