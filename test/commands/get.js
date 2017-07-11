@@ -11,10 +11,8 @@ vorpal.use(get);
 vorpal.pipe(output => '');
 
 describe('lisky get command palette', () => {
-
-	it('should test command get account', () => {
-
-		 let command = 'get account 13133549779353512613L';
+  it('should test command get account', () => {
+		 const command = 'get account 13133549779353512613L';
 
 		 sinon.stub(query, 'isAccountQuery');
 
@@ -23,12 +21,10 @@ describe('lisky get command palette', () => {
 		 (query.isAccountQuery.called).should.be.equal(true);
 
 		 query.isAccountQuery.restore();
+  });
 
-	});
-
-	it('should have the right parameters with block', () => {
-
-		 let command = 'get block 3641049113933914102';
+  it('should have the right parameters with block', () => {
+		 const command = 'get block 3641049113933914102';
 
 		 sinon.stub(query, 'isBlockQuery');
 
@@ -37,108 +33,92 @@ describe('lisky get command palette', () => {
 		 (query.isBlockQuery.called).should.be.equal(true);
 
 		 query.isBlockQuery.restore();
+  });
 
-	});
+  it('should have the right parameters with delegate', () => {
+    const command = 'get delegate lightcurve';
 
-	it('should have the right parameters with delegate', () => {
+    sinon.stub(query, 'isDelegateQuery');
 
-		let command = 'get delegate lightcurve';
+    vorpal.execSync(command);
 
-		sinon.stub(query, 'isDelegateQuery');
+    (query.isDelegateQuery.called).should.be.equal(true);
 
-		vorpal.execSync(command);
+    query.isDelegateQuery.restore();
+  });
 
-		(query.isDelegateQuery.called).should.be.equal(true);
+  it('should have the right parameters with transaction', () => {
+    const command = 'get transaction 16388447461355055139';
 
-		query.isDelegateQuery.restore();
+    sinon.stub(query, 'isTransactionQuery');
 
-	});
+    vorpal.execSync(command);
 
-	it('should have the right parameters with transaction', () => {
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-		let command = 'get transaction 16388447461355055139';
+    query.isTransactionQuery.restore();
+  });
 
-		sinon.stub(query, 'isTransactionQuery');
+  it('should have the right parameters with transaction, handling response', () => {
+    const command = 'get transaction 16388447461355055139';
 
-		vorpal.execSync(command);
+    sinon.stub(query, 'isTransactionQuery').resolves({ transactionid: '123' });
 
-		(query.isTransactionQuery.called).should.be.equal(true);
+    vorpal.execSync(command);
 
-		query.isTransactionQuery.restore();
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-	});
+    query.isTransactionQuery.restore();
+  });
 
-	it('should have the right parameters with transaction, handling response', () => {
+  it('should have the right parameters with transaction, handling error from http', () => {
+    const command = 'get transaction 16388447461355055139';
 
-		let command = 'get transaction 16388447461355055139';
+    sinon.stub(query, 'isTransactionQuery').resolves({ error: 'transaction not found' });
 
-		sinon.stub(query, 'isTransactionQuery').resolves({ transactionid: '123' });
+    vorpal.execSync(command);
 
-		vorpal.execSync(command);
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-		(query.isTransactionQuery.called).should.be.equal(true);
-
-		query.isTransactionQuery.restore();
-
-	});
-
-	it('should have the right parameters with transaction, handling error from http', () => {
-
-		let command = 'get transaction 16388447461355055139';
-
-		sinon.stub(query, 'isTransactionQuery').resolves({error: 'transaction not found'});
-
-		vorpal.execSync(command);
-
-		(query.isTransactionQuery.called).should.be.equal(true);
-
-		query.isTransactionQuery.restore();
-
-	});
-
+    query.isTransactionQuery.restore();
+  });
 });
 
 
 describe('get command palette with json settings', () => {
+  it('should have the right parameters with transactions', () => {
+    const command = 'get transaction 16388447461355055139 -j';
 
-	it('should have the right parameters with transactions', () => {
+    sinon.stub(query, 'isTransactionQuery').resolves({ transactionId: '123' });
 
-		let command = 'get transaction 16388447461355055139 -j';
+    vorpal.execSync(command);
 
-		sinon.stub(query, 'isTransactionQuery').resolves({ transactionId: '123' });
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-		vorpal.execSync(command);
+    query.isTransactionQuery.restore();
+  });
 
-		(query.isTransactionQuery.called).should.be.equal(true);
+  it('should print no-json output', () => {
+    const command = 'get transaction 16388447461355055139 --no-json';
 
-		query.isTransactionQuery.restore();
+    sinon.stub(query, 'isTransactionQuery');
 
-	});
+    vorpal.execSync(command);
 
-	it('should print no-json output', () => {
-		let command = 'get transaction 16388447461355055139 --no-json';
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-		sinon.stub(query, 'isTransactionQuery');
+    query.isTransactionQuery.restore();
+  });
 
-		vorpal.execSync(command);
+  it('should have the right parameters with transaction, handling error from http', () => {
+    const command = 'get transaction 16388447461355055139 -j';
 
-		(query.isTransactionQuery.called).should.be.equal(true);
+    sinon.stub(query, 'isTransactionQuery').resolves({ error: 'transaction not found' });
 
-		query.isTransactionQuery.restore();
-	});
+    vorpal.execSync(command);
 
-	it('should have the right parameters with transaction, handling error from http', () => {
+    (query.isTransactionQuery.called).should.be.equal(true);
 
-		let command = 'get transaction 16388447461355055139 -j';
-
-		sinon.stub(query, 'isTransactionQuery').resolves({error: 'transaction not found'});
-
-		vorpal.execSync(command);
-
-		(query.isTransactionQuery.called).should.be.equal(true);
-
-		query.isTransactionQuery.restore();
-
-	});
-
+    query.isTransactionQuery.restore();
+  });
 });
