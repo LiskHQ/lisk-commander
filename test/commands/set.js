@@ -1,110 +1,78 @@
 const Vorpal = require('vorpal');
-const common = require('../common');
 const set = require('../../src/commands/set');
 
 const vorpal = new Vorpal();
 
 vorpal.use(set);
-vorpal.pipe(output => '');
-
-function executeCommand (command, callback) {
-	vorpal.exec(command, function (err, data){
-		if (!err) {
-			return callback(this);
-		} else {
-			return err;
-		}
-	});
-
-}
+vorpal.pipe(() => '');
 
 describe('set command', () => {
+  describe('should exist', () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const filterCommand = vorpalCommand => vorpalCommand._name === 'set';
 
-	describe('should exist', () => {
+    const exists = vorpal.commands.filter(filterCommand);
 
-		const filterCommand = vorpalCommand => vorpalCommand._name === 'set';
+    it('should be available', () => {
+      // eslint-disable-next-line no-underscore-dangle
+      (exists[0]._args).should.be.length(2);
+      // eslint-disable-next-line no-underscore-dangle
+      (exists[0]._name).should.be.equal('set');
+    });
 
-		let exists = vorpal.commands.filter(filterCommand);
+    it('should have 2 require inputs', () => {
+      // eslint-disable-next-line no-underscore-dangle
+      (exists[0]._args[0].required).should.be.true();
+      // eslint-disable-next-line no-underscore-dangle
+      (exists[0]._args[1].required).should.be.true();
+    });
+  });
 
-		it('should be available', () => {
+  describe('should set json to true', () => {
+    it('should be set json true and give feedback', () => {
+      const command = 'set json true';
 
-			(exists[0]._args).should.be.length(2);
-			(exists[0]._name).should.be.equal('set');
+      const res = vorpal.execSync(command);
+      (res).should.be.equal('successfully set json output to true');
+    });
 
-		});
+    it('should be set json back to false and give feedback', () => {
+      const command = 'set json false';
 
-		it('should have 2 require inputs', () => {
+      const res = vorpal.execSync(command);
+      (res).should.be.equal('successfully set json output to false');
+    });
 
-			(exists[0]._args[0].required).should.be.true();
-			(exists[0]._args[1].required).should.be.true();
+    it('should be set json back to false and give feedback', () => {
+      const command = 'set json false';
 
-		});
+      const res = vorpal.execSync(command);
+      (res).should.be.equal('successfully set json output to false');
+    });
 
-	});
+    it('should be set json back to false and give feedback asynchronous', (done) => {
+      const command = 'set json false';
 
-	describe('should set json to true', () => {
+      vorpal.exec(command, (result) => {
+        (result).should.be.equal('successfully set json output to false');
+        done();
+      });
+    });
+  });
 
-		it('should be set json true and give feedback', () => {
+  describe('switch testnet and mainnet', () => {
+    it('should set testnet to true', () => {
+      const command = 'set testnet true';
 
-			let command = 'set json true';
+      const res = vorpal.execSync(command);
+      (res).should.be.equal('successfully set testnet to true');
+    });
 
-			let res = vorpal.execSync(command);
-			(res).should.be.equal('successfully set json output to true');
+    it('should set testnet to false', () => {
+      const command = 'set testnet false';
 
-		});
-
-		it('should be set json back to false and give feedback', () => {
-
-			let command = 'set json false';
-
-			let res = vorpal.execSync(command);
-			(res).should.be.equal('successfully set json output to false');
-
-		});
-
-		it('should be set json back to false and give feedback', () => {
-
-			let command = 'set json false';
-
-			let res = vorpal.execSync(command);
-			(res).should.be.equal('successfully set json output to false');
-
-		});
-
-		it('should be set json back to false and give feedback asynchronous', (done) => {
-
-			let command = 'set json false';
-
-			vorpal.exec(command, function (result) {
-				(result).should.be.equal('successfully set json output to false');
-				done();
-			});
-
-
-		});
-
-	});
-
-	describe('switch testnet and mainnet', () => {
-
-		it('should set testnet to true', () => {
-
-			let command = 'set testnet true';
-
-			let res = vorpal.execSync(command);
-			(res).should.be.equal('successfully set testnet to true');
-
-		});
-
-		it('should set testnet to false', () => {
-
-			let command = 'set testnet false';
-
-			let res = vorpal.execSync(command);
-			(res).should.be.equal('successfully set testnet to false');
-
-		});
-
-	});
-
+      const res = vorpal.execSync(command);
+      (res).should.be.equal('successfully set testnet to false');
+    });
+  });
 });
