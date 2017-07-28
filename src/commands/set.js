@@ -1,5 +1,6 @@
 import fse from 'fs-extra';
 import config from '../../config.json';
+import liskInstance from '../utils/liskInstance';
 
 const writeConfigToFile = (newConfig) => {
 	const configString = JSON.stringify(newConfig, null, '\t');
@@ -12,6 +13,7 @@ const setBoolean = (variable, path) => (value) => {
 	if (!checkBoolean(value)) {
 		return { message: `Cannot set ${variable} to ${value}.` };
 	}
+
 	const newValue = (value === 'true');
 	path
 		.reduce((obj, pathComponent, i) => {
@@ -23,20 +25,27 @@ const setBoolean = (variable, path) => (value) => {
 			return obj[pathComponent];
 		}, config);
 
+	if (variable === 'testnet') {
+		liskInstance.setTestnet(newValue);
+	}
+
 	writeConfigToFile(config);
 	return { message: `Successfully set ${variable} to ${value}.` };
 };
 
-const set = (userInput, callback) => {
-	const getType = {
+const set = ({ variable, value }, callback) => {
+	const handlers = {
 		json: setBoolean('json output', ['json']),
 		testnet: setBoolean('testnet', ['liskJS', 'testnet']),
 	};
-
-	const returnValue = Object.keys(getType).includes(userInput.variable)
-		? getType[userInput.variable](userInput.value)
+	const handler = handlers[variable];
+	const returnValue = handler
+		? handler(value)
 		: { message: 'Unsupported variable name.' };
-	return (callback && typeof callback === 'function') ? callback(returnValue.message) : returnValue.message;
+
+	return (callback && typeof callback === 'function')
+		? callback(returnValue.message)
+		: returnValue.message;
 };
 
 export default function setCommand(vorpal) {
