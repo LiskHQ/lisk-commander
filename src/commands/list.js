@@ -18,6 +18,7 @@ import query from '../utils/query';
 import {
 	getTableString,
 	printResult,
+	prettyJson,
 } from '../utils/print';
 import {
 	COMMAND_TYPES,
@@ -37,7 +38,7 @@ const handlers = {
 };
 
 const processResults = (useJsonOutput, vorpal, type, results) => {
-	const printFn = useJsonOutput ? JSON.stringify : getTableString;
+	const printFn = useJsonOutput ? prettyJson : getTableString;
 	const resultsToPrint = results.map(result => (
 		result.error
 			? result

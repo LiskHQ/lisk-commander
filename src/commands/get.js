@@ -19,6 +19,7 @@ import { COMMAND_TYPES } from '../utils/constants';
 import {
 	getTableString,
 	printResult,
+	prettyJson,
 } from '../utils/print';
 import {
 	deAlias,
@@ -34,7 +35,7 @@ const handlers = {
 };
 
 const processResult = (useJsonOutput, vorpal, type, result) => {
-	const printFn = useJsonOutput ? JSON.stringify : getTableString;
+	const printFn = useJsonOutput ? prettyJson : getTableString;
 	const resultToPrint = result.error ? result : result[type];
 	printResult(printFn, vorpal, resultToPrint);
 	return result;

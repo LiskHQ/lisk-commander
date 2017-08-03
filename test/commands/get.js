@@ -134,7 +134,7 @@ describe('lisky get command palette', () => {
 				const { restore } = spy;
 				return vorpal.exec(jsonCommand)
 					.then(() => {
-						(spy.calledWithExactly(transaction)).should.be.true();
+						(spy.calledWithExactly(transaction, null, 2)).should.be.true();
 					})
 					.then(restore, createRejectionHandler(restore));
 			});
