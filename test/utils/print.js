@@ -16,6 +16,7 @@
 import {
 	getTableString,
 	printResult,
+	prettyJson,
 } from '../../src/utils/print';
 
 describe('print utils', () => {
@@ -59,6 +60,16 @@ describe('print utils', () => {
 			printResult(printFn, vorpal, result);
 
 			(stub.calledWithExactly('oh no 123')).should.be.true();
+		});
+	});
+
+	describe('#prettyJson', () => {
+		it('should pretty prin json', () => {
+			const data = {lisk: 'JS'} //eslint-disable-line
+			const result = prettyJson(data);
+			const expectedResult = '{\n  "lisk": \"JS\"\n}'; //eslint-disable-line
+
+			(result).should.be.equal(expectedResult);
 		});
 	});
 });
