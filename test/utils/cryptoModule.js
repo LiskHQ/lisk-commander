@@ -43,13 +43,9 @@ describe('cryptoModule', () => {
 		let encryptMessageWithSecretStub;
 
 		beforeEach(() => {
-			encryptMessageWithSecretStub = sinon
+			encryptMessageWithSecretStub = sandbox
 				.stub(lisk.crypto, 'encryptMessageWithSecret')
 				.returns(Object.assign({}, encryptMessageWithSecretResult));
-		});
-
-		afterEach(() => {
-			encryptMessageWithSecretStub.restore();
 		});
 
 		it('should use lisk-js encryptMessageWithSecret', () => {
@@ -86,13 +82,9 @@ describe('cryptoModule', () => {
 		let decryptMessageWithSecretStub;
 
 		beforeEach(() => {
-			decryptMessageWithSecretStub = sinon
+			decryptMessageWithSecretStub = sandbox
 				.stub(lisk.crypto, 'decryptMessageWithSecret')
 				.returns(decryptMessageWithSecretResult);
-		});
-
-		afterEach(() => {
-			decryptMessageWithSecretStub.restore();
 		});
 
 		it('should use lisk-js decryptMessageWithSecret', () => {
@@ -134,13 +126,9 @@ describe('cryptoModule', () => {
 				cipher: 'abcd',
 				iv: '0123',
 			};
-			encryptPassphraseWithPasswordStub = sinon
+			encryptPassphraseWithPasswordStub = sandbox
 				.stub(lisk.crypto, 'encryptPassphraseWithPassword')
 				.returns(Object.assign({}, encryptPassphraseWithPasswordResult));
-		});
-
-		afterEach(() => {
-			encryptPassphraseWithPasswordStub.restore();
 		});
 
 		it('should use lisk-js encryptPassphraseWithPassword', () => {
@@ -176,13 +164,9 @@ describe('cryptoModule', () => {
 		let decryptPassphraseWithPasswordStub;
 
 		beforeEach(() => {
-			decryptPassphraseWithPasswordStub = sinon
+			decryptPassphraseWithPasswordStub = sandbox
 				.stub(lisk.crypto, 'decryptPassphraseWithPassword')
 				.returns(passphrase);
-		});
-
-		afterEach(() => {
-			decryptPassphraseWithPasswordStub.restore();
 		});
 
 		it('should use lisk-js decryptPassphraseWithPassword', () => {
