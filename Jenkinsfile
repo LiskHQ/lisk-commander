@@ -35,7 +35,7 @@ node('lisky-01') {
 			}
 		}
 
-    stage ('Run Snyk') {
+		stage ('Run Snyk') {
 			try {
 				withCredentials([string(credentialsId: 'liskhq-snyk-token', variable: 'SNYK_TOKEN')]) {
 					sh 'snyk test'
