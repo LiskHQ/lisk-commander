@@ -13,6 +13,7 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
+import 'babel-polyfill';
 import path from 'path';
 import fse from 'fs-extra';
 import vorpal from 'vorpal';
@@ -45,13 +46,11 @@ Type \`help\` to get started.
 `;
 const intro = `${logo}${message}`;
 
-const isInteractive = process.argv.length > 2;
-
 lisky
 	.delimiter('lisky>')
 	.history('lisky');
 
-if (!isInteractive) {
+if (process.env.NON_INTERACTIVE_MODE !== 'true') {
 	lisky.log(intro).show();
 }
 

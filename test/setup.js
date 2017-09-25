@@ -13,11 +13,22 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
+import 'babel-polyfill';
 import should from 'should';
 import sinon from 'sinon';
 import '../src/utils/env';
 
 process.env.NODE_ENV = 'test';
+
+should.use((_, Assertion) => {
+	Assertion.add('hexString', function hexString() {
+		this.params = {
+			operator: 'to be hex string',
+		};
+		(Buffer.from(this.obj, 'hex').toString('hex'))
+			.should.equal(this.obj);
+	});
+});
 
 // See https://github.com/shouldjs/should.js/issues/41
 Object.defineProperty(global, 'should', { value: should });

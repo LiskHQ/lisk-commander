@@ -14,22 +14,12 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
-var lisky = require('../dist').default;
+var lisky;
 
-function exit() {
-	return lisky.exec('exit');
-}
+process.env.NON_INTERACTIVE_MODE = !(process.argv[1].endsWith('lisky') && process.argv.length === 2);
 
-function runCommand() {
-	var command = process.argv
-		.slice(2)
-		.join(' ');
+lisky = require('../dist').default;
 
-	return lisky
-		.exec(command)
-		.then(exit);
-}
-
-module.exports = process.argv.length > 2
-	? runCommand()
+module.exports = process.env.NON_INTERACTIVE_MODE === 'true'
+	? lisky.parse(process.argv)
 	: lisky;
