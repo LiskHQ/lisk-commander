@@ -49,6 +49,8 @@ describe('encrypt passphrase command', () => {
 
 	describe('when executed', () => {
 		const passphrase = 'secret passphrase';
+		const privateKey = 'b6a2b12beb4179538bfb42423cce2e98ccdebcc684145ba977f2f80630eb278e7980b6fcc57907cca971b80b764775b37b9278aad348dbbe608a378e899e7978';
+		const publicKey = '7980b6fcc57907cca971b80b764775b37b9278aad348dbbe608a378e899e7978';
 		const password = 'testing123';
 		const passwordDisplayName = 'your password';
 		const stdIn = 'stdin';
@@ -60,6 +62,8 @@ describe('encrypt passphrase command', () => {
 		let getStdInStub;
 		let getPassphraseStub;
 		let encryptPassphraseStub;
+		let cryptoGetKeysReturnObject;
+		let getKeysStub;
 		let printSpy;
 		let printResultStub;
 
@@ -68,11 +72,16 @@ describe('encrypt passphrase command', () => {
 				cipher: 'abcd',
 				iv: '0123',
 			};
+			cryptoGetKeysReturnObject = {
+				publicKey,
+				privateKey,
+			};
 			getStdInStub = sandbox.stub(input, 'getStdIn').resolves({});
 			getPassphraseStub = sandbox.stub(input, 'getPassphrase');
 			getPassphraseStub.onFirstCall().resolves(passphrase);
 			getPassphraseStub.onSecondCall().resolves(password);
 			encryptPassphraseStub = sandbox.stub(cryptoModule, 'encryptPassphrase').returns(cryptoEncryptPassphraseReturnObject);
+			getKeysStub = sandbox.stub(cryptoModule, 'getKeys').returns(cryptoGetKeysReturnObject);
 			printSpy = sandbox.spy();
 			printResultStub = sandbox.stub(print, 'printResult').returns(printSpy);
 		});
@@ -590,6 +599,28 @@ describe('encrypt passphrase command', () => {
 				(printResultStub.calledWithExactly(vorpal, { passphrase: stdIn, password: stdIn }))
 					.should.be.true();
 				(printSpy.calledWithExactly(cryptoEncryptPassphraseReturnObject)).should.be.true();
+			});
+		});
+
+		describe('with public key option', () => {
+			const passphraseSource = `pass:${passphrase}`;
+			const passwordSource = `pass:${password}`;
+			const commandWithPublicKeyOption = `${command} --passphrase "${passphraseSource}" --password "${passwordSource}" --output-public-key`;
+
+			beforeEach(() => {
+				return vorpal.exec(commandWithPublicKeyOption);
+			});
+
+			it('should call the crypto module getKeys method', () => {
+				(getKeysStub.calledWithExactly(passphrase)).should.be.true();
+			});
+
+			it('should print the result', () => {
+				(printResultStub.calledWithExactly(vorpal, { passphrase: passphraseSource, password: passwordSource, 'output-public-key': true })).should.be.true();
+				(printSpy.calledWithExactly(
+					Object.assign({}, cryptoEncryptPassphraseReturnObject, { publicKey }),
+				))
+					.should.be.true();
 			});
 		});
 	});
