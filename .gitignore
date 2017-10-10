@@ -41,3 +41,8 @@ jspm_packages
 
 # Distribution folder
 dist
+
+# npm config files
+.nvmrc
+.nycrc
+.snyk
