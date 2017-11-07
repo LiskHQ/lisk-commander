@@ -16,6 +16,7 @@
 import childProcess from 'child_process';
 import fs from 'fs';
 import * as createAccount from '../../src/commands/createAccount';
+import * as createTransactionCastVote from '../../src/commands/createTransactionCastVote';
 import * as createTransactionRegisterDelegate from '../../src/commands/createTransactionRegisterDelegate';
 import * as createTransactionCreateMultisignatureAccount from '../../src/commands/createTransactionCreateMultisignatureAccount';
 import * as createTransactionRegisterSecondPassphrase from '../../src/commands/createTransactionRegisterSecondPassphrase';
@@ -81,6 +82,7 @@ export const getActionCreator = actionName => ({
 	'decrypt passphrase': decryptPassphrase.actionCreator,
 	'encrypt message': encryptMessage.actionCreator,
 	'encrypt passphrase': encryptPassphrase.actionCreator,
+	'create transaction cast vote': createTransactionCastVote.actionCreator,
 	'create transaction register delegate': createTransactionRegisterDelegate.actionCreator,
 	'create transaction create multisignature account': createTransactionCreateMultisignatureAccount.actionCreator,
 	'create transaction register second passphrase': createTransactionRegisterSecondPassphrase.actionCreator,

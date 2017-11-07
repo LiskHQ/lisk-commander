@@ -19,6 +19,11 @@ import {
 	getFirstNumber,
 } from '../utils';
 
+export function aSetOfVotes() {
+	const votes = getQuotedStrings(this.test.parent.title);
+	this.test.ctx.votes = votes;
+}
+
 export function aKeysgroupWithKeys() {
 	const keysgroup = getQuotedStrings(this.test.parent.title);
 	this.test.ctx.keysgroup = keysgroup;

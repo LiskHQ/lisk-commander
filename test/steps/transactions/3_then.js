@@ -19,6 +19,22 @@ import {
 	getTransactionCreatorFunctionNameByType,
 } from '../utils';
 
+export function itShouldCreateACastVotesTransactionWithTheVotesThePassphraseAndTheSecondPassphrase() {
+	const { votes, passphrase, secondPassphrase } = this.test.ctx;
+	const publicKeysWithPlus = votes.map((publicKey) => {
+		return `+${publicKey}`;
+	});
+	return (transactions.createVote).should.be.calledWithExactly(passphrase, publicKeysWithPlus, secondPassphrase);
+}
+
+export function itShouldCreateACastVotesTransactionWithTheVotesAndThePassphrase() {
+	const { votes, passphrase } = this.test.ctx;
+	const publicKeysWithPlus = votes.map((publicKey) => {
+		return `+${publicKey}`;
+	});
+	return (transactions.createVote).should.be.calledWithExactly(passphrase, publicKeysWithPlus, null);
+}
+
 export function itShouldHaveAFunctionForCreatingATypeTransaction() {
 	const { transactionsObject } = this.test.ctx;
 	const transactionType = getNumbers(this.test.title)[0];
