@@ -21,6 +21,11 @@ import {
 	getQuotedStrings,
 } from '../utils';
 
+export function theMessageUnderThePassphraseHasSignature() {
+	const signature = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.signature = signature;
+}
+
 export function aCryptoInstance() {
 	[
 		'getKeys',
@@ -29,6 +34,7 @@ export function aCryptoInstance() {
 		'encryptMessageWithSecret',
 		'decryptMessageWithSecret',
 		'getAddressFromPublicKey',
+		'signMessageWithSecret',
 	].forEach(methodName => sandbox.stub(lisk.crypto, methodName));
 
 	this.test.ctx.cryptoInstance = cryptoInstance;
@@ -47,6 +53,7 @@ export function aCryptoInstanceHasBeenInitialised() {
 		'decryptPassphrase',
 		'getKeys',
 		'getAddressFromPublicKey',
+		'signMessage',
 	].forEach((methodName) => {
 		sandbox.stub(cryptoInstance, methodName).returns(cryptoResult);
 	});

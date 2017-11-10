@@ -34,6 +34,7 @@ class Crypto {
 			'decryptPassphrase',
 			'getKeys',
 			'getAddressFromPublicKey',
+			'signMessage',
 		].forEach((methodName) => {
 			this[methodName] = wrapFunction(this[methodName].bind(this));
 		});
@@ -67,6 +68,12 @@ class Crypto {
 	getAddressFromPublicKey(publicKey) {
 		return {
 			address: this.liskCrypto.getAddressFromPublicKey(publicKey),
+		};
+	}
+
+	signMessage(message, passphrase) {
+		return {
+			signature: this.liskCrypto.signMessageWithSecret(message, passphrase),
 		};
 	}
 }

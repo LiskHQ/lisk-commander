@@ -18,6 +18,23 @@ import {
 	DEFAULT_ERROR_MESSAGE,
 } from '../utils';
 
+export function noErrorOccursAttemptingToSignTheMessageUsingThePassphrase() {
+	const { cryptoInstance, message, passphrase, signature } = this.test.ctx;
+
+	lisk.crypto.signMessageWithSecret.returns(signature);
+
+	this.test.ctx.returnValue = cryptoInstance.signMessage(message, passphrase);
+}
+
+export function anErrorOccursAttemptingToSignTheMessageUsingThePassphrase() {
+	const { cryptoInstance, message, passphrase } = this.test.ctx;
+
+	lisk.crypto.signMessageWithSecret.throws(new TypeError(DEFAULT_ERROR_MESSAGE));
+
+	this.test.ctx.errorMessage = DEFAULT_ERROR_MESSAGE;
+	this.test.ctx.returnValue = cryptoInstance.signMessage(message, passphrase);
+}
+
 export function anErrorOccursAttemptingToGetTheAddressFromThePublicKey() {
 	const { cryptoInstance, keys: { publicKey } } = this.test.ctx;
 

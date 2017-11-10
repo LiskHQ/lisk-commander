@@ -27,6 +27,7 @@ import * as env from '../../src/commands/env';
 import * as get from '../../src/commands/get';
 import * as list from '../../src/commands/list';
 import * as set from '../../src/commands/set';
+import * as signMessage from '../../src/commands/signMessage';
 import * as fsUtils from '../../src/utils/fs';
 import * as helpers from '../../src/utils/helpers';
 import * as input from '../../src/utils/input';
@@ -89,6 +90,7 @@ export const getActionCreator = actionName => ({
 	get: get.actionCreator,
 	list: list.actionCreator,
 	set: set.actionCreator,
+	'sign message': signMessage.actionCreator,
 })[actionName];
 
 export const setUpChildProcessStubs = () => {
