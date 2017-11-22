@@ -5,6 +5,7 @@ pipeline {
 			steps {
 				deleteDir()
 				checkout scm
+				rm -f /home/lisk/.lisky/config.lock
 			}
 		}
 		stage('Install dependencies') {
