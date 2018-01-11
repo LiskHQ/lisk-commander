@@ -271,4 +271,30 @@ describe('config util', () => {
 			},
 		);
 	});
+	Given('a config', given.aConfig, () => {
+		Given('a config path "liskJS.node"', given.aConfigPath, () => {
+			Given('a config value "testValue"', given.aConfigValue, () => {
+				Given(
+					'an expected updated config file',
+					given.anExpectedUpdatedConfigFile,
+					() => {
+						When(
+							'set config is executed with the config, the path and the value',
+							when.setConfigIsExecutedWithTheConfigThePathAndTheValue,
+							() => {
+								Then(
+									'the configuration should be equal to the expected updated config file',
+									then.theConfigurationShouldBeEqualToTheExpectedUpdatedConfigFile,
+								);
+								Then(
+									'the updated config should have the given value at the given path',
+									then.theUpdatedConfigShouldHaveTheGivenValueAtTheGivenPath,
+								);
+							},
+						);
+					},
+				);
+			});
+		});
+	});
 });

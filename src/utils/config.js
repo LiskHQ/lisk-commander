@@ -28,6 +28,27 @@ const configDirPath =
 export const configFilePath = `${configDirPath}/${configFileName}`;
 const lockfilePath = `${configDirPath}/${lockfileName}`;
 
+export const configSchema = {
+	name: 'string',
+	json: 'boolean',
+	'liskJS.testnet': 'boolean',
+	'liskJS.node': 'string',
+	'liskJS.port': 'string',
+	'liskJS.ssl': 'boolean',
+	pretty: 'boolean',
+};
+
+export function setConfig(initObject, path, value) {
+	if (typeof path === 'string') {
+		return setConfig(initObject, path.split('.'), value);
+	} else if (path.length === 1 && value !== undefined) {
+		const configurationSetter = initObject;
+		configurationSetter[path[0]] = value;
+		return configurationSetter;
+	}
+	return setConfig(initObject[path[0]], path.slice(1), value);
+}
+
 const attemptCallWithWarning = (fn, path) => {
 	try {
 		return fn();

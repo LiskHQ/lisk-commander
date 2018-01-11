@@ -47,7 +47,7 @@ describe('set command', () => {
 								when.theActionIsCalledWithTheVariableAndTheValue,
 								() => {
 									Then(
-										'it should reject with message "Value must be a boolean."',
+										'it should reject with message "Wrong format for json - xxx. Expected boolean."',
 										then.itShouldRejectWithMessage,
 									);
 								},
@@ -369,7 +369,7 @@ describe('set command', () => {
 								when.theActionIsCalledWithTheVariableAndTheValue,
 								() => {
 									Then(
-										'it should reject with message "Value must be a boolean."',
+										'it should reject with message "Wrong format for pretty - xxx. Expected boolean."',
 										then.itShouldRejectWithMessage,
 									);
 								},
@@ -580,14 +580,14 @@ describe('set command', () => {
 							);
 						});
 					});
-					Given('a variable "testnet"', given.aVariable, () => {
+					Given('a variable "liskJS.testnet"', given.aVariable, () => {
 						Given('an unknown value "xxx"', given.anUnknownValue, () => {
 							When(
 								'the action is called with the variable and the value',
 								when.theActionIsCalledWithTheVariableAndTheValue,
 								() => {
 									Then(
-										'it should reject with message "Value must be a boolean."',
+										'it should reject with message "Wrong format for liskJS.testnet - xxx. Expected boolean."',
 										then.itShouldRejectWithMessage,
 									);
 								},
@@ -631,7 +631,7 @@ describe('set command', () => {
 														then.itShouldResolveToAnObjectWithWarning,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to true."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to true."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},
@@ -661,7 +661,7 @@ describe('set command', () => {
 														then.itShouldWriteTheUpdatedConfigToTheConfigFile,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to true."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to true."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},
@@ -685,7 +685,7 @@ describe('set command', () => {
 														then.itShouldWriteTheUpdatedConfigToTheConfigFile,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to true."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to true."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},
@@ -733,7 +733,7 @@ describe('set command', () => {
 														then.itShouldResolveToAnObjectWithWarning,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to false."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to false."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},
@@ -763,7 +763,7 @@ describe('set command', () => {
 														then.itShouldWriteTheUpdatedConfigToTheConfigFile,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to false."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to false."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},
@@ -787,7 +787,7 @@ describe('set command', () => {
 														then.itShouldWriteTheUpdatedConfigToTheConfigFile,
 													);
 													Then(
-														'it should resolve to an object with message "Successfully set testnet to false."',
+														'it should resolve to an object with message "Successfully set liskJS.testnet to false."',
 														then.itShouldResolveToAnObjectWithMessage,
 													);
 												},

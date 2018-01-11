@@ -16,7 +16,33 @@
 import lockfile from 'lockfile';
 import defaultConfig from '../../../defaultConfig.json';
 import * as currentConfig from '../../../src/utils/config';
-import { getFirstBoolean, getBooleans } from '../utils';
+import { getBooleans, getFirstBoolean, getFirstQuotedString } from '../utils';
+
+export function anExpectedUpdatedConfigFile() {
+	const { configValue } = this.test.ctx;
+	const updatedConfigFile = {
+		name: 'testy',
+		json: true,
+		liskJS: {
+			testnet: false,
+			node: configValue,
+			port: 7357,
+			ssl: true,
+		},
+		prettier: false,
+	};
+	this.test.ctx.updatedConfigFile = updatedConfigFile;
+}
+
+export function aConfigValue() {
+	const configValue = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.configValue = configValue;
+}
+
+export function aConfigPath() {
+	const pathName = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.pathName = pathName;
+}
 
 export function aConfig() {
 	const config = {
@@ -28,6 +54,7 @@ export function aConfig() {
 			port: 7357,
 			ssl: true,
 		},
+		prettier: false,
 	};
 	currentConfig.default = config;
 	this.test.ctx.config = config;

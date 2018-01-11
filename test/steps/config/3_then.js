@@ -16,6 +16,16 @@
 import os from 'os';
 import { getFirstQuotedString, getFirstBoolean } from '../utils';
 
+export function theUpdatedConfigShouldHaveTheGivenValueAtTheGivenPath() {
+	const { updatedConfigFile, configValue } = this.test.ctx;
+	updatedConfigFile.liskJS.node.should.be.equal(configValue);
+}
+
+export function theConfigurationShouldBeEqualToTheExpectedUpdatedConfigFile() {
+	const { config, updatedConfigFile } = this.test.ctx;
+	return config.should.be.eql(updatedConfigFile);
+}
+
 export function aDefaultConfigDirectoryPathShouldBeSet() {
 	process.env.should.have
 		.property('LISKY_CONFIG_DIR')

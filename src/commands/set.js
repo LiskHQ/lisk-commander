@@ -14,18 +14,24 @@
  *
  */
 import { CONFIG_VARIABLES } from '../utils/constants';
-import config, { configFilePath } from '../utils/config';
+import config, {
+	configFilePath,
+	configSchema,
+	setConfig,
+} from '../utils/config';
 import { writeJsonSync } from '../utils/fs';
 import { createCommand } from '../utils/helpers';
 import liskAPIInstance from '../utils/api';
 
-const description = `Set configuration <variable> to <value>. Variables available: json, name, testnet. Configuration is persisted in \`${
+const description = `Set configuration <variable> to <value>. Variables available as in config file structure. Nested values are seperated by a dot. Configuration is persisted in \`${
 	configFilePath
 }\`.
 
 	Examples:
 	- set json true
 	- set name my_custom_lisky
+	- set liskJS.testnet true
+	- set liskJS.ssl true
 `;
 
 const WRITE_FAIL_WARNING =
@@ -40,18 +46,39 @@ const writeConfigToFile = newConfig => {
 	}
 };
 
+const typeOf = obj =>
+	({}.toString
+		.call(obj)
+		.match(/\s([a-zA-Z]+)/)[1]
+		.toLowerCase());
 const checkBoolean = value => ['true', 'false'].includes(value);
+const sanitizeValue = (variable, value) =>
+	configSchema[variable] === 'boolean' && checkBoolean(value)
+		? JSON.parse(value)
+		: value;
 
-const setNestedConfigProperty = newValue => (obj, pathComponent, i, path) => {
-	if (i === path.length - 1) {
-		// eslint-disable-next-line no-param-reassign
-		obj[pathComponent] = newValue;
-		return config;
+export const actionCreator = () => async ({ variable, value }) => {
+	const expectedVariableFormat = configSchema[variable];
+	if (!expectedVariableFormat) throw new Error('Unsupported variable name.');
+
+	const valueToSet = sanitizeValue(variable, value);
+	if (typeOf(valueToSet) !== expectedVariableFormat)
+		throw new Error(
+			`Wrong format for ${variable} - ${valueToSet}. Expected ${
+				expectedVariableFormat
+			}.`,
+		);
+
+	if (variable === 'liskJS.testnet') {
+		liskAPIInstance.setTestnet(valueToSet);
 	}
-	return obj[pathComponent];
-};
 
-const attemptWriteToFile = (variable, value) => {
+	if (variable === 'liskJS.ssl') {
+		liskAPIInstance.setSSL(valueToSet);
+	}
+
+	setConfig(config, variable, valueToSet);
+
 	const writeSuccess = writeConfigToFile(config);
 
 	if (!writeSuccess && process.env.NON_INTERACTIVE_MODE === 'true') {
@@ -59,7 +86,7 @@ const attemptWriteToFile = (variable, value) => {
 	}
 
 	const result = {
-		message: `Successfully set ${variable} to ${value}.`,
+		message: `Successfully set ${variable} to ${valueToSet}.`,
 	};
 
 	if (!writeSuccess) {
@@ -67,41 +94,6 @@ const attemptWriteToFile = (variable, value) => {
 	}
 
 	return result;
-};
-
-const setBoolean = (variable, path) => value => {
-	if (!checkBoolean(value)) {
-		throw new Error('Value must be a boolean.');
-	}
-
-	const newValue = value === 'true';
-	path.reduce(setNestedConfigProperty(newValue), config);
-
-	if (variable === 'testnet') {
-		liskAPIInstance.setTestnet(newValue);
-	}
-
-	return attemptWriteToFile(variable, value);
-};
-
-const setString = (variable, path) => value => {
-	path.reduce(setNestedConfigProperty(value), config);
-	return attemptWriteToFile(variable, value);
-};
-
-const handlers = {
-	json: setBoolean('json', ['json']),
-	name: setString('name', ['name']),
-	pretty: setBoolean('pretty', ['pretty']),
-	testnet: setBoolean('testnet', ['liskJS', 'testnet']),
-};
-
-export const actionCreator = () => async ({ variable, value }) => {
-	if (!CONFIG_VARIABLES.includes(variable)) {
-		throw new Error('Unsupported variable name.');
-	}
-
-	return handlers[variable](value);
 };
 
 const set = createCommand({
