@@ -105,6 +105,7 @@ const setUpLiskJSCryptoStubs = () => {
 		'getKeys',
 		'getAddressFromPublicKey',
 		'signMessageWithPassphrase',
+		'verifyMessageWithPublicKey',
 	].forEach(methodName => sandbox.stub(lisk.crypto, methodName));
 };
 
@@ -117,6 +118,7 @@ const setUpCryptoStubs = () => {
 		'getKeys',
 		'getAddressFromPublicKey',
 		'signMessage',
+		'verifyMessage',
 	].forEach(methodName => sandbox.stub(cryptoInstance, methodName));
 };
 
@@ -197,6 +199,14 @@ export function setUpCommandBroadcastTransaction() {
 	this.test.ctx.apiResponse = this.test.ctx.broadcastSignedTransactionResponse;
 }
 
+export function setUpSignatureWorkaround() {
+	const exampleSig = {
+		commandSignature:
+			'KjyhJ+/Peyv2KsjDsfWs9pl8q2K6n941Z9GI7cusvF3IF3+4jQOoaRzgM0j1abEhvKnno8Q79cBWOC81/4Q8CQ==',
+	};
+	sandbox.stub(helpers, 'workaroundSignatureEscaping').returns(exampleSig);
+}
+
 export function setUpCommandCreateAccount() {
 	setUpCryptoStubs();
 	setUpMnemonicStubs();
@@ -270,6 +280,12 @@ export function tearDownCommandSet() {
 export function setUpCommandSignMessage() {
 	setUpCryptoStubs();
 	setUpInputStubs();
+}
+
+export function setUpCommandVerifyMessage() {
+	setUpCryptoStubs();
+	setUpInputStubs();
+	setUpSignatureWorkaround();
 }
 
 export function setUpUtilConfig() {

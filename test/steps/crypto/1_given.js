@@ -40,10 +40,21 @@ export function aCryptoInstanceHasBeenInitialised() {
 		'getKeys',
 		'getAddressFromPublicKey',
 		'signMessage',
+		'verifyMessage',
 	].forEach(methodName => cryptoInstance[methodName].returns(cryptoResult));
 
 	this.test.ctx.cryptoResult = cryptoResult;
 	this.test.ctx.cryptoInstance = cryptoInstance;
+}
+
+export function aSignature() {
+	const signature = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.signature = signature;
+}
+
+export function aPublicKey() {
+	const publicKey = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.publicKey = publicKey;
 }
 
 export function aSenderPublicKey() {

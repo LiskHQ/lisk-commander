@@ -17,6 +17,27 @@ import { wrapActionCreator, createCommand } from '../../../src/utils/helpers';
 import execFile from '../../../src/execFile';
 import { getFirstQuotedString } from '../utils';
 
+export function theActionIsCalledWithTheOptionsThePublicKeyTheSignatureAndTheMessage() {
+	const { action, options, publicKey, signature, message } = this.test.ctx;
+	const returnValue = action({ options, publicKey, signature, message });
+	this.test.ctx.returnValue = returnValue;
+	return returnValue.catch(e => e);
+}
+
+export function theActionIsCalledWithTheOptionsThePublicKeyAndTheSignature() {
+	const { action, options, publicKey, signature } = this.test.ctx;
+	const returnValue = action({ options, publicKey, signature });
+	this.test.ctx.returnValue = returnValue;
+	return returnValue.catch(e => e);
+}
+
+export function theActionIsCalledWithTheOptionsAndThePublicKey() {
+	const { action, options, publicKey } = this.test.ctx;
+	const returnValue = action({ options, publicKey });
+	this.test.ctx.returnValue = returnValue;
+	return returnValue.catch(e => e);
+}
+
 export function theActionIsCalledWithTheSignatureAndTheStringifiedErrorObjectViaVorpalStdIn() {
 	const { action, signature, errorObject } = this.test.ctx;
 	const returnValue = action({
