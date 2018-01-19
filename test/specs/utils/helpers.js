@@ -1003,4 +1003,30 @@ describe('utils helpers', () => {
 			);
 		});
 	});
+	describe('#workaroundSignatureEscaping', () => {
+		Given(
+			'a signature "KjyhJ+/Peyv2KsjDsfWs9pl8q2K6n941Z9GI7cusvF3IF3+4jQOoaRzgM0j1abEhvKnno8Q79cBWOC81/4Q8CQ=="',
+			given.aSignature,
+			() => {
+				Given('a vorpal instance', given.aVorpalInstance, () => {
+					Given(
+						'the vorpal instance has a ui parent with a command',
+						given.theVorpalInstanceHasAUIParentWithACommand,
+						() => {
+							When(
+								'the workaround signature escaping is executed',
+								when.theWorkAroundSignatureEscapingIsExecuted,
+								() => {
+									it(
+										'should return the signature from the command',
+										then.itShouldReturnTheSignatureFromTheCommand,
+									);
+								},
+							);
+						},
+					);
+				});
+			},
+		);
+	});
 });

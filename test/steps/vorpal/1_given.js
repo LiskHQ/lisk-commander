@@ -119,6 +119,18 @@ export function theVorpalInstanceHasAUIParent() {
 	vorpal.ui.parent = parent;
 }
 
+export function theVorpalInstanceHasAUIParentWithACommand() {
+	const { vorpal } = this.test.ctx;
+	const parent = {
+		_command: {
+			command:
+				'verify message 647aac1e2df8a5c870499d7ddc82236b1e10936977537a3844a6b05ea33f9ef6 KjyhJ+/Peyv2KsjDsfWs9pl8q2K6n941Z9GI7cusvF3IF3+4jQOoaRzgM0j1abEhvKnno8Q79cBWOC81/4Q8CQ==',
+		},
+	};
+	this.test.ctx.vorpalUIParent = parent;
+	vorpal.ui.parent = parent;
+}
+
 export function aLiskyInstance() {
 	const lisky = {
 		log: sandbox.spy(),

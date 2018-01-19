@@ -34,11 +34,10 @@ const processInputs = (publicKey, signature) => ({ data }) =>
 export const actionCreator = vorpal => async ({
 	publicKey,
 	signature,
-	message,
 	options,
 }) => {
 	const messageSource = options.message;
-	const { commandSignature } = workaroundSignatureEscaping(vorpal);
+	const commandSignature = workaroundSignatureEscaping(vorpal);
 
 	if (!publicKey) {
 		throw new ValidationError('No public key was provided.');
@@ -53,11 +52,9 @@ export const actionCreator = vorpal => async ({
 	}
 
 	return getInputsFromSources(vorpal, {
-		data: message
-			? null
-			: {
-					source: messageSource,
-				},
+		data: {
+			source: messageSource,
+		},
 	}).then(processInputs(publicKey, commandSignature));
 };
 

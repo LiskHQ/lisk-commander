@@ -16,6 +16,11 @@
 import { getFirstQuotedString, getFirstNumber } from '../utils';
 import { FileSystemError, ValidationError } from '../../../src/utils/error';
 
+export function itShouldReturnTheSignatureFromTheCommand() {
+	const { signature, returnValue } = this.test.ctx;
+	signature.should.be.equal(returnValue);
+}
+
 export function theErrorShouldBeInstanceOfNodesBuiltInError() {
 	const { testError } = this.test.ctx;
 	return testError.should.be.instanceOf(Error);

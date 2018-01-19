@@ -19,11 +19,8 @@ import { printResult } from '../utils/print';
 
 export const workaroundSignatureEscaping = vorpal => {
 	// eslint-disable-next-line no-underscore-dangle
-	const command = vorpal.ui.parent._command.command.split(' ');
-	const commandSignature = command[3];
-	return {
-		commandSignature,
-	};
+	const signature = vorpal.ui.parent._command.command.split(' ')[3];
+	return signature;
 };
 
 export const validatePublicKeys = publicKeys =>
