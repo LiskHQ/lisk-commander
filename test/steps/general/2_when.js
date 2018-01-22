@@ -13,7 +13,10 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
-import { createErrorHandler } from '../../../src/utils/helpers';
+import {
+	createErrorHandler,
+	workaroundSignatureEscaping,
+} from '../../../src/utils/helpers';
 
 export function createErrorHandlerIsCalledWithThePrefix() {
 	const { prefix } = this.test.ctx;
@@ -56,4 +59,11 @@ export function theValidationErrorIsThrown() {
 		this.test.ctx.testError = error;
 		return testFunction;
 	}
+}
+
+export function theWorkAroundSignatureEscapingIsExecuted() {
+	const { vorpal } = this.test.ctx;
+	const returnValue = workaroundSignatureEscaping(vorpal);
+	this.test.ctx.returnValue = returnValue;
+	return returnValue;
 }
