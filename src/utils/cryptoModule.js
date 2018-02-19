@@ -36,6 +36,7 @@ class Crypto {
 			'getKeys',
 			'getAddressFromPublicKey',
 			'signMessage',
+			'signTransaction',
 		].forEach(methodName => {
 			this[methodName] = wrapFunction(this[methodName].bind(this));
 		});
@@ -85,6 +86,14 @@ class Crypto {
 
 	signMessage({ message, passphrase }) {
 		return this.liskCrypto.signMessageWithPassphrase(message, passphrase);
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	signTransaction({ transaction, passphrase }) {
+		return liskJS.transaction.utils.signRawTransaction({
+			transaction,
+			passphrase,
+		});
 	}
 }
 

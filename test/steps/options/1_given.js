@@ -135,9 +135,24 @@ export function anOptionsObjectWithPassphraseSetToAndMessageSetTo() {
 	};
 }
 
+export function anOptionsObjectWithPassphraseSetToAndTransactionSetTo() {
+	const [passphraseSource, transactionSource] = getQuotedStrings(
+		this.test.parent.title,
+	);
+	this.test.ctx.options = {
+		passphrase: passphraseSource,
+		transaction: transactionSource,
+	};
+}
+
 export function anOptionsObjectWithMessageSetTo() {
 	const message = getFirstQuotedString(this.test.parent.title);
 	this.test.ctx.options = { message };
+}
+
+export function anOptionsObjectWithTransactionSetTo() {
+	const transaction = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.options = { transaction };
 }
 
 export function anOptionsObjectWithPassphraseSetTo() {

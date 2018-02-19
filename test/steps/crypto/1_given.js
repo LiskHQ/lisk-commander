@@ -40,6 +40,7 @@ export function aCryptoInstanceHasBeenInitialised() {
 		'getKeys',
 		'getAddressFromPublicKey',
 		'signMessage',
+		'signTransaction',
 	].forEach(methodName => cryptoInstance[methodName].returns(cryptoResult));
 
 	this.test.ctx.cryptoResult = cryptoResult;

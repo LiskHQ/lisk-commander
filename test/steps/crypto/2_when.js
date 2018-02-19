@@ -16,6 +16,17 @@
 import lisk from 'lisk-js';
 import { DEFAULT_ERROR_MESSAGE } from '../utils';
 
+export function noErrorOccursAttemptingToSignTheTransactionUsingThePassphrase() {
+	const { cryptoInstance, transaction, passphrase } = this.test.ctx;
+
+	// NOTE: Stubbing an exported function is not possible, otherwise we would do so here.
+
+	this.test.ctx.returnValue = cryptoInstance.signTransaction({
+		transaction,
+		passphrase,
+	});
+}
+
 export function noErrorOccursAttemptingToSignTheMessageUsingThePassphrase() {
 	const { cryptoInstance, message, passphrase, signature } = this.test.ctx;
 

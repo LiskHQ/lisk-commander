@@ -14,6 +14,7 @@
  *
  */
 import transactions from '../../../src/utils/transactions';
+import { getFirstQuotedString } from '../utils';
 
 export function aSignatureInTableFormat() {
 	this.test.ctx.signature = `
@@ -64,8 +65,20 @@ export function aTransactionInStringifiedJSONFormat() {
 	});
 }
 
+export function anInvalidTransactionJSONString() {
+	this.test.ctx.transactionString = getFirstQuotedString(
+		this.test.parent.title,
+	);
+}
+
 export function aTransactionsObject() {
 	this.test.ctx.transactionsObject = transactions;
+}
+
+export function anUnsignedTransaction() {
+	const transactionString = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.transactionString = transactionString;
+	this.test.ctx.transaction = JSON.parse(transactionString);
 }
 
 export function aLiskObjectThatCanCreateTransactions() {
@@ -74,7 +87,6 @@ export function aLiskObjectThatCanCreateTransactions() {
 		amount: 123,
 		publicKey: 'oneStubbedPublicKey',
 	};
-
 	[
 		'transfer',
 		'registerSecondPassphrase',

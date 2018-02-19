@@ -32,6 +32,7 @@ import * as set from '../../src/commands/set';
 import * as showCopyright from '../../src/commands/showCopyright';
 import * as showWarranty from '../../src/commands/showWarranty';
 import * as signMessage from '../../src/commands/signMessage';
+import * as signTransaction from '../../src/commands/signTransaction';
 
 export const DEFAULT_ERROR_MESSAGE = "Cannot read property 'length' of null";
 
@@ -40,15 +41,15 @@ const BOOLEANS = {
 	false: false,
 };
 
-const regExpQuotes = /"((.|\n|\s\S)+?)"/;
+const regExpQuotes = /(["'])((.|\n|[^\\s\S])+?)\1/;
 const regExpNumbers = /\d+(.\d+)?/;
 const regExpBooleans = /(true|false)/;
 
-export const getFirstQuotedString = title => title.match(regExpQuotes)[1];
+export const getFirstQuotedString = title => title.match(regExpQuotes)[2];
 
 export const getQuotedStrings = title => {
 	const globalRegExp = new RegExp(regExpQuotes, 'g');
-	return title.match(globalRegExp).map(match => match.match(regExpQuotes)[1]);
+	return title.match(globalRegExp).map(match => match.match(regExpQuotes)[2]);
 };
 
 export const getFirstNumber = title => Number(title.match(regExpNumbers)[0]);
@@ -95,6 +96,7 @@ export const getActionCreator = actionName =>
 		'show copyright': showCopyright.actionCreator,
 		'show warranty': showWarranty.actionCreator,
 		'sign message': signMessage.actionCreator,
+		'sign transaction': signTransaction.actionCreator,
 	}[actionName]);
 
 export const createFakeInterface = value => ({

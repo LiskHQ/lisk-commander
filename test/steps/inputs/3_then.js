@@ -126,7 +126,20 @@ export function itShouldGetTheInputsFromSourcesUsingTheMessageSource() {
 	});
 }
 
+export function itShouldGetTheInputsFromSourcesUsingTheTransactionSource() {
+	const { options } = this.test.ctx;
+	const firstCallArgs = getInputsFromSources.firstCall.args;
+	return firstCallArgs[1].should.have.property('data').eql({
+		source: options.transaction,
+	});
+}
+
 export function itShouldNotGetTheInputsFromSourcesUsingTheMessageSource() {
+	const firstCallArgs = getInputsFromSources.firstCall.args;
+	return firstCallArgs[1].should.have.property('data').be.null();
+}
+
+export function itShouldNotGetTheInputsFromSourcesUsingTheTransactionSource() {
 	const firstCallArgs = getInputsFromSources.firstCall.args;
 	return firstCallArgs[1].should.have.property('data').be.null();
 }

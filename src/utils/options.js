@@ -59,6 +59,15 @@ const testnetDescription = `Specifies whether to run the command against the tes
 	- --testnet false (runs against mainnet)
 `;
 
+const transactionDescription = `Specifies a source for providing a transaction to the command. If a string is provided directly as an argument, this option will be ignored. The transaction must be provided via an argument or via this option. Sources must be one of \`file\` or \`stdin\`. In the case of \`file\`, a corresponding identifier must also be provided.
+
+Note: if both secret passphrase and transaction are passed via stdin, the passphrase must be the first line.
+
+	Examples:
+	- --transaction file:/path/to/my/transaction.txt
+	- --transaction stdin
+`;
+
 const votesDescription = `Specifies the public keys for the delegate candidates you want to vote for. Takes either a string of public keys separated by commas, or a path to a file which contains the public keys.
 
 	Examples:
@@ -85,6 +94,7 @@ const options = {
 	pretty: ['--pretty', prettyDescription],
 	table: ['-t, --table', tableDescription],
 	testnet: ['--testnet', testnetDescription],
+	transaction: ['--transaction', transactionDescription],
 	unvotes: ['--unvotes <source...>', unvotesDescription],
 	votes: ['--votes <source...>', votesDescription],
 };

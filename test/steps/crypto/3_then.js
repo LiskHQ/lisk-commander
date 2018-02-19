@@ -25,7 +25,20 @@ export function itShouldSignTheMessageWithThePassphrase() {
 	});
 }
 
+export function itShouldSignTheTransactionWithThePassphrase() {
+	const { transaction, passphrase } = this.test.ctx;
+	return cryptoInstance.signTransaction.should.be.calledWithExactly({
+		transaction,
+		passphrase,
+	});
+}
+
 export function itShouldResolveToTheResultOfSigningTheMessage() {
+	const { returnValue, cryptoResult } = this.test.ctx;
+	return returnValue.should.be.fulfilledWith(cryptoResult);
+}
+
+export function itShouldResolveToTheResultOfSigningTheTransaction() {
 	const { returnValue, cryptoResult } = this.test.ctx;
 	return returnValue.should.be.fulfilledWith(cryptoResult);
 }
@@ -111,6 +124,18 @@ export function itShouldResolveToAnObjectWithThePassphraseAndThePublicKeyAndTheA
 export function theSignatureShouldBeReturned() {
 	const { returnValue, signature } = this.test.ctx;
 	return returnValue.should.be.eql(signature);
+}
+
+export function theSignedTransactionShouldBeReturned() {
+	const { returnValue, transaction } = this.test.ctx;
+	const expectedKeys = [
+		...Object.keys(transaction),
+		'id',
+		'signature',
+		'senderId',
+		'senderSecondPublicKey',
+	];
+	return Object.keys(returnValue).should.containDeep(expectedKeys);
 }
 
 export function liskJSCryptoShouldBeUsedToSignTheMessage() {

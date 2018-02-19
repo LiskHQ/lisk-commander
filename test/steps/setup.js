@@ -117,6 +117,7 @@ const setUpCryptoStubs = () => {
 		'getKeys',
 		'getAddressFromPublicKey',
 		'signMessage',
+		'signTransaction',
 	].forEach(methodName => sandbox.stub(cryptoInstance, methodName));
 };
 
@@ -268,6 +269,11 @@ export function tearDownCommandSet() {
 }
 
 export function setUpCommandSignMessage() {
+	setUpCryptoStubs();
+	setUpInputStubs();
+}
+
+export function setUpCommandSignTransaction() {
 	setUpCryptoStubs();
 	setUpInputStubs();
 }
