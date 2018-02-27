@@ -56,6 +56,7 @@ export function aDeeplyNestedObject() {
 				keys: {
 					more: ['publicKey1', 'publicKey2'],
 				},
+				array: ['secretKey1', 'secretKey2'],
 			},
 		},
 	};

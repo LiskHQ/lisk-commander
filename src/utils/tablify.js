@@ -37,7 +37,14 @@ const getNestedValue = data => keyString => keyString.split('.').reduce((obj, ke
 
 const addValuesToTable = (table, data) => {
 	const nestedValues = table.options.head.map(getNestedValue(data));
-	const valuesToPush = nestedValues.map(value => (Array.isArray(value) ? value.join('\n') : value));
+	const valuesToPush = nestedValues.map((value) => {
+		if (Array.isArray(value)) {
+			return value.join('\n');
+		} else if (value && typeof value === 'object') {
+			return JSON.stringify(value);
+		}
+		return value;
+	});
 	return valuesToPush.length && table.push(valuesToPush);
 };
 
@@ -50,12 +57,13 @@ const reduceKeys = (keys, row) => {
 	return keys.concat(newKeys);
 };
 
-const getKeys = data => Object.entries(data).map(([parentKey, value]) => (
-	Object.prototype.toString.call(value) === '[object Object]'
-		? getKeys(value).reduce((nestedKeys, childKey) => [...nestedKeys, `${parentKey}.${childKey}`], [])
-		: [parentKey]
-))
-	.reduce((flattenedKeys, keysToBeFlattened) => [...flattenedKeys, ...keysToBeFlattened], []);
+const getKeys = (data, limit = 3, loop = 1) =>
+	Object.entries(data).map(([parentKey, value]) => (
+		Object.prototype.toString.call(value) === '[object Object]' && loop < limit
+			? getKeys(value, limit, loop + 1).reduce((nestedKeys, childKey) => [...nestedKeys, `${parentKey}.${childKey}`], [])
+			: [parentKey]
+	))
+		.reduce((flattenedKeys, keysToBeFlattened) => [...flattenedKeys, ...keysToBeFlattened], []);
 
 const tablify = (data) => {
 	const dataIsArray = Array.isArray(data);

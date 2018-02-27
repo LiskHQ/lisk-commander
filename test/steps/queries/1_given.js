@@ -13,7 +13,6 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
-import liskAPIInstance from '../../../src/utils/api';
 import queryInstance from '../../../src/utils/query';
 import {
 	getFirstQuotedString,
@@ -45,10 +44,9 @@ export function aQueryInstanceHasBeenInitialised() {
 	queryInstance.getTransaction.resolves({ transaction: queryResult });
 
 	this.test.ctx.queryResult = queryResult;
-	this.test.ctx.queryInstance = queryInstance;
+	this.test.ctx.qtheQueryInstanceGetsABlockUsingTheIDueryInstance = queryInstance;
 }
 
 export function aQueryInstance() {
 	this.test.ctx.queryInstance = queryInstance;
-	sandbox.stub(liskAPIInstance, 'sendRequest');
 }

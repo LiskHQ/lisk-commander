@@ -15,6 +15,13 @@
  */
 import liskAPIInstance from './api';
 
+const handleErrorResponse = (response) => {
+	if (!response.success) {
+		return Promise.reject(new Error(response.message));
+	}
+	return response;
+};
+
 class Query {
 	constructor() {
 		this.client = liskAPIInstance;
@@ -27,19 +34,23 @@ class Query {
 	}
 
 	getBlock(input) {
-		return this.client.sendRequest('blocks/get', { id: input });
+		return this.client.sendRequest('blocks/get', { id: input })
+			.then(handleErrorResponse);
 	}
 
 	getAccount(input) {
-		return this.client.sendRequest('accounts', { address: input });
+		return this.client.sendRequest('accounts', { address: input })
+			.then(handleErrorResponse);
 	}
 
 	getTransaction(input) {
-		return this.client.sendRequest('transactions/get', { id: input });
+		return this.client.sendRequest('transactions/get', { id: input })
+			.then(handleErrorResponse);
 	}
 
 	getDelegate(input) {
-		return this.client.sendRequest('delegates/get', { username: input });
+		return this.client.sendRequest('delegates/get', { username: input })
+			.then(handleErrorResponse);
 	}
 }
 
