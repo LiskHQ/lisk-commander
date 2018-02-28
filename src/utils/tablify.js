@@ -33,6 +33,8 @@ const chars = {
 	middle: '│',
 };
 
+const errorCyclicObject = 'Error: cyclic object cannot be displayed.';
+
 const getNestedValue = data => keyString => keyString.split('.').reduce((obj, key) => obj[key], data);
 
 const addValuesToTable = (table, data) => {
@@ -41,7 +43,11 @@ const addValuesToTable = (table, data) => {
 		if (Array.isArray(value)) {
 			return value.join('\n');
 		} else if (value && typeof value === 'object') {
-			return JSON.stringify(value);
+			try {
+				return JSON.stringify(value);
+			} catch (e) {
+				return errorCyclicObject;
+			}
 		}
 		return value;
 	});

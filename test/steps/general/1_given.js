@@ -62,6 +62,19 @@ export function aDeeplyNestedObject() {
 	};
 }
 
+export function aCyclicObject() {
+	const obj = {
+		root: 'value',
+		nested: {
+			object: 'values',
+			testing: 123,
+			nullValue: null,
+		},
+	};
+	obj.circular = obj;
+	this.test.ctx.testObject = obj;
+}
+
 export function aNestedObject() {
 	this.test.ctx.testObject = {
 		root: 'value',

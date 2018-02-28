@@ -145,6 +145,12 @@ export function theReturnedTableShouldHaveAHeadWithTheObjectDeeplyNestedKeys() {
 	return (returnValue.options).should.have.property('head').eql(keys);
 }
 
+export function theReturnedTableShouldHaveAHeadWithTheCyclicObjectKeys() {
+	const { returnValue } = this.test.ctx;
+	const keys = ['root', 'nested.object', 'nested.testing', 'nested.nullValue', 'circular.root', 'circular.nested.object', 'circular.nested.testing', 'circular.nested.nullValue', 'circular.circular.root', 'circular.circular.nested', 'circular.circular.circular'];
+	return (returnValue.options).should.have.property('head').eql(keys);
+}
+
 export function theReturnedTableShouldHaveAHeadWithTheObjectNestedValues() {
 	const { returnValue } = this.test.ctx;
 	const values = ['value', 'values', 123, null];
@@ -154,6 +160,12 @@ export function theReturnedTableShouldHaveAHeadWithTheObjectNestedValues() {
 export function theReturnedTableShouldHaveAHeadWithTheObjectDeeplyNestedValues() {
 	const { returnValue } = this.test.ctx;
 	const values = ['value', 'values', 123, null, 'aPublicKeyString', '{"more":["publicKey1","publicKey2"]}', 'secretKey1\nsecretKey2'];
+	return (returnValue[0]).should.eql(values);
+}
+
+export function theReturnedTableShouldHaveAHeadWithTheCyclicObjectValues() {
+	const { returnValue } = this.test.ctx;
+	const values = ['value', 'values', 123, null, 'value', 'values', 123, null, 'value', '{"object":"values","testing":123,"nullValue":null}', 'Error: cyclic object cannot be displayed.'];
 	return (returnValue[0]).should.eql(values);
 }
 
