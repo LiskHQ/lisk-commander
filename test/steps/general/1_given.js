@@ -56,9 +56,23 @@ export function aDeeplyNestedObject() {
 				keys: {
 					more: ['publicKey1', 'publicKey2'],
 				},
+				array: ['secretKey1', 'secretKey2'],
 			},
 		},
 	};
+}
+
+export function aCyclicObject() {
+	const obj = {
+		root: 'value',
+		nested: {
+			object: 'values',
+			testing: 123,
+			nullValue: null,
+		},
+	};
+	obj.circular = obj;
+	this.test.ctx.testObject = obj;
 }
 
 export function aNestedObject() {

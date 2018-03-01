@@ -27,29 +27,57 @@ describe('Query class', () => {
 			Then('the query instance should have a handler for "transaction"', then.theQueryInstanceShouldHaveAHandlerFor);
 			describe('#getBlock', () => {
 				Given('a block ID "5650160629533476718"', given.aBlockID, () => {
-					When('the query instance gets a block using the ID', when.theQueryInstanceGetsABlockUsingTheID, () => {
-						Then('the lisk instance should send a request to the blocks/get API endpoint with the block ID', then.theLiskAPIInstanceShouldSendARequestToTheBlocksGetAPIEndpointWithTheBlockID);
+					When('the request is successful', when.theRequestIsSuccessful, () => {
+						When('the query instance gets a block using the ID', when.theQueryInstanceGetsABlockUsingTheID, () => {
+							Then('the lisk API instance should send a request to the "blocks/get" API endpoint with the block ID', then.theLiskAPIInstanceShouldSendARequestToTheBlocksGetAPIEndpointWithTheBlockID);
+						});
+					});
+					When('the request fails', when.theRequestFails, () => {
+						When('the query instance gets a block using the ID', when.theQueryInstanceGetsABlockUsingTheID, () => {
+							Then('it should reject with the error message', then.itShouldRejectWithTheErrorMessage);
+						});
 					});
 				});
 			});
 			describe('#getAccount', () => {
 				Given('an address "13782017140058682841L"', given.anAddress, () => {
-					When('the query instance gets an account using the address', when.theQueryInstanceGetsAnAccountUsingTheAddress, () => {
-						Then('the lisk instance should send a request to the accounts API endpoint with the address', then.theLiskAPIInstanceShouldSendARequestToTheAccountsAPIEndpointWithTheAddress);
+					When('the request is successful', when.theRequestIsSuccessful, () => {
+						When('the query instance gets an account using the address', when.theQueryInstanceGetsAnAccountUsingTheAddress, () => {
+							Then('the lisk API instance should send a request to the "accounts" API endpoint with the address', then.theLiskAPIInstanceShouldSendARequestToTheAccountsAPIEndpointWithTheAddress);
+						});
+					});
+					When('the request fails', when.theRequestFails, () => {
+						When('the query instance gets an account using the address', when.theQueryInstanceGetsAnAccountUsingTheAddress, () => {
+							Then('it should reject with the error message', then.itShouldRejectWithTheErrorMessage);
+						});
 					});
 				});
 			});
 			describe('#getTransaction', () => {
 				Given('a transaction ID "16388447461355055139"', given.aTransactionID, () => {
-					When('the query instance gets a transaction using the ID', when.theQueryInstanceGetsATransactionUsingTheID, () => {
-						Then('the lisk instance should send a request to the transactions/get API endpoint with the transaction ID', then.theLiskAPIInstanceShouldSendARequestToTheTransactionsGetAPIEndpointWithTheTransactionID);
+					When('the request is successful', when.theRequestIsSuccessful, () => {
+						When('the query instance gets a transaction using the ID', when.theQueryInstanceGetsATransactionUsingTheID, () => {
+							Then('the lisk API instance should send a request to the "transactions/get" API endpoint with the transaction ID', then.theLiskAPIInstanceShouldSendARequestToTheTransactionsGetAPIEndpointWithTheTransactionID);
+						});
+					});
+					When('the request fails', when.theRequestFails, () => {
+						When('the query instance gets a transaction using the ID', when.theQueryInstanceGetsATransactionUsingTheID, () => {
+							Then('it should reject with the error message', then.itShouldRejectWithTheErrorMessage);
+						});
 					});
 				});
 			});
 			describe('#getDelegate', () => {
 				Given('a delegate username "lightcurve"', given.aDelegateUsername, () => {
-					When('the query instance gets a delegate using the username', when.theQueryInstanceGetsADelegateUsingTheUsername, () => {
-						Then('the lisk instance should send a request to the delegates/get API endpoint with the username', then.theLiskAPIInstanceShouldSendARequestToTheDelegatesGetAPIEndpointWithTheUsername);
+					When('the request is successful', when.theRequestIsSuccessful, () => {
+						When('the query instance gets a delegate using the username', when.theQueryInstanceGetsADelegateUsingTheUsername, () => {
+							Then('the lisk API instance should send a request to the "delegates/get" API endpoint with the username', then.theLiskAPIInstanceShouldSendARequestToTheDelegatesGetAPIEndpointWithTheUsername);
+						});
+					});
+					When('the request fails', when.theRequestFails, () => {
+						When('the query instance gets a delegate using the username', when.theQueryInstanceGetsADelegateUsingTheUsername, () => {
+							Then('it should reject with the error message', then.itShouldRejectWithTheErrorMessage);
+						});
 					});
 				});
 			});

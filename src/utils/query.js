@@ -15,9 +15,27 @@
  */
 import liskAPIInstance from './api';
 
+const wrapFunction = fn => function wrappedFunction(...args) {
+	return fn(...args)
+		.then((response) => {
+			if (!response.success) {
+				return Promise.reject(new Error(response.message));
+			}
+			return response;
+		});
+};
+
 class Query {
 	constructor() {
 		this.client = liskAPIInstance;
+		[
+			'getBlock',
+			'getAccount',
+			'getTransaction',
+			'getDelegate',
+		].forEach((methodName) => {
+			this[methodName] = wrapFunction(this[methodName].bind(this));
+		});
 		this.handlers = {
 			account: account => this.getAccount(account),
 			block: block => this.getBlock(block),

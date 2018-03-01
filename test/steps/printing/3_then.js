@@ -141,7 +141,13 @@ export function theReturnedTableShouldHaveAHeadWithTheObjectNestedKeys() {
 
 export function theReturnedTableShouldHaveAHeadWithTheObjectDeeplyNestedKeys() {
 	const { returnValue } = this.test.ctx;
-	const keys = ['root', 'nested.object', 'nested.testing', 'nested.nullValue', 'nested.asset.publicKey', 'nested.asset.keys.more'];
+	const keys = ['root', 'nested.object', 'nested.testing', 'nested.nullValue', 'nested.asset.publicKey', 'nested.asset.keys', 'nested.asset.array'];
+	return (returnValue.options).should.have.property('head').eql(keys);
+}
+
+export function theReturnedTableShouldHaveAHeadWithTheCyclicObjectKeys() {
+	const { returnValue } = this.test.ctx;
+	const keys = ['root', 'nested.object', 'nested.testing', 'nested.nullValue', 'circular.root', 'circular.nested.object', 'circular.nested.testing', 'circular.nested.nullValue', 'circular.circular.root', 'circular.circular.nested', 'circular.circular.circular'];
 	return (returnValue.options).should.have.property('head').eql(keys);
 }
 
@@ -153,7 +159,13 @@ export function theReturnedTableShouldHaveAHeadWithTheObjectNestedValues() {
 
 export function theReturnedTableShouldHaveAHeadWithTheObjectDeeplyNestedValues() {
 	const { returnValue } = this.test.ctx;
-	const values = ['value', 'values', 123, null, 'aPublicKeyString', 'publicKey1\npublicKey2'];
+	const values = ['value', 'values', 123, null, 'aPublicKeyString', '{"more":["publicKey1","publicKey2"]}', 'secretKey1\nsecretKey2'];
+	return (returnValue[0]).should.eql(values);
+}
+
+export function theReturnedTableShouldHaveARowWithTheCuclicObjectValuesIncludingAnErrorForTheCyclicValue() {
+	const { returnValue } = this.test.ctx;
+	const values = ['value', 'values', 123, null, 'value', 'values', 123, null, 'value', '{"object":"values","testing":123,"nullValue":null}', 'Error: cyclic object cannot be displayed.'];
 	return (returnValue[0]).should.eql(values);
 }
 
