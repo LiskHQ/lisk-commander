@@ -17,4 +17,5 @@ import liskAPIInstance from '../../../src/utils/api';
 
 export function aLiskAPIInstance() {
 	this.test.ctx.liskAPIInstance = liskAPIInstance;
+	sandbox.stub(this.test.ctx.liskAPIInstance, 'sendRequest');
 }

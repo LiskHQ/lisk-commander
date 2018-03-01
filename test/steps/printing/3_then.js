@@ -163,7 +163,7 @@ export function theReturnedTableShouldHaveAHeadWithTheObjectDeeplyNestedValues()
 	return (returnValue[0]).should.eql(values);
 }
 
-export function theReturnedTableShouldHaveAHeadWithTheCyclicObjectValues() {
+export function theReturnedTableShouldHaveARowWithTheCuclicObjectValuesIncludingAnErrorForTheCyclicValue() {
 	const { returnValue } = this.test.ctx;
 	const values = ['value', 'values', 123, null, 'value', 'values', 123, null, 'value', '{"object":"values","testing":123,"nullValue":null}', 'Error: cyclic object cannot be displayed.'];
 	return (returnValue[0]).should.eql(values);

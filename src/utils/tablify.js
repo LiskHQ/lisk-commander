@@ -42,7 +42,8 @@ const addValuesToTable = (table, data) => {
 	const valuesToPush = nestedValues.map((value) => {
 		if (Array.isArray(value)) {
 			return value.join('\n');
-		} else if (value && typeof value === 'object') {
+		}
+		if (value && typeof value === 'object') {
 			try {
 				return JSON.stringify(value);
 			} catch (e) {

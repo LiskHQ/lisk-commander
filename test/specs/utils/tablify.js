@@ -45,7 +45,7 @@ describe('tablify util', () => {
 	Given('a cyclic object', given.aCyclicObject, () => {
 		When('the object is tablified', when.theObjectIsTablified, () => {
 			Then('the returned table should have a head with the cyclic object’s keys', then.theReturnedTableShouldHaveAHeadWithTheCyclicObjectKeys);
-			Then('the returned table should have a row with the cyclic object’s values and show error when cyclic value', then.theReturnedTableShouldHaveAHeadWithTheCyclicObjectValues);
+			Then('the returned table should have a row with the cyclic object’s values including an error for the cyclic value', then.theReturnedTableShouldHaveARowWithTheCuclicObjectValuesIncludingAnErrorForTheCyclicValue);
 		});
 	});
 	Given('an array of objects with the same keys', given.anArrayOfObjectsWithTheSameKeys, () => {

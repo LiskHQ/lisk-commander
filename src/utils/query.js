@@ -15,16 +15,27 @@
  */
 import liskAPIInstance from './api';
 
-const handleErrorResponse = (response) => {
-	if (!response.success) {
-		return Promise.reject(new Error(response.message));
-	}
-	return response;
+const wrapFunction = fn => function wrappedFunction(...args) {
+	return fn(...args)
+		.then((response) => {
+			if (!response.success) {
+				return Promise.reject(new Error(response.message));
+			}
+			return response;
+		});
 };
 
 class Query {
 	constructor() {
 		this.client = liskAPIInstance;
+		[
+			'getBlock',
+			'getAccount',
+			'getTransaction',
+			'getDelegate',
+		].forEach((methodName) => {
+			this[methodName] = wrapFunction(this[methodName].bind(this));
+		});
 		this.handlers = {
 			account: account => this.getAccount(account),
 			block: block => this.getBlock(block),
@@ -34,23 +45,19 @@ class Query {
 	}
 
 	getBlock(input) {
-		return this.client.sendRequest('blocks/get', { id: input })
-			.then(handleErrorResponse);
+		return this.client.sendRequest('blocks/get', { id: input });
 	}
 
 	getAccount(input) {
-		return this.client.sendRequest('accounts', { address: input })
-			.then(handleErrorResponse);
+		return this.client.sendRequest('accounts', { address: input });
 	}
 
 	getTransaction(input) {
-		return this.client.sendRequest('transactions/get', { id: input })
-			.then(handleErrorResponse);
+		return this.client.sendRequest('transactions/get', { id: input });
 	}
 
 	getDelegate(input) {
-		return this.client.sendRequest('delegates/get', { username: input })
-			.then(handleErrorResponse);
+		return this.client.sendRequest('delegates/get', { username: input });
 	}
 }
 

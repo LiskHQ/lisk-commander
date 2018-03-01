@@ -44,7 +44,7 @@ export function aQueryInstanceHasBeenInitialised() {
 	queryInstance.getTransaction.resolves({ transaction: queryResult });
 
 	this.test.ctx.queryResult = queryResult;
-	this.test.ctx.qtheQueryInstanceGetsABlockUsingTheIDueryInstance = queryInstance;
+	this.test.ctx.queryInstance = queryInstance;
 }
 
 export function aQueryInstance() {
