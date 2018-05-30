@@ -1,4 +1,24 @@
 #!/usr/bin/env node
+'use strict';
+
+var _os = require('os');
+
+var _os2 = _interopRequireDefault(_os);
+
+var _lockfile = require('lockfile');
+
+var _lockfile2 = _interopRequireDefault(_lockfile);
+
+var _semver = require('semver');
+
+var _semver2 = _interopRequireDefault(_semver);
+
+var _package = require('../package.json');
+
+var _package2 = _interopRequireDefault(_package);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /*
  * LiskHQ/lisky
  * Copyright © 2017 Lisk Foundation
@@ -14,23 +34,13 @@
  * Removal or modification of this copyright notice is prohibited.
  *
  */
-var os = require('os');
-var lockfile = require('lockfile');
-var semver = require('semver');
-
-var packageJSON = require('../package.json');
-
-var configLockfilePath;
-var lisky;
-var execFile;
-var firstCommandWords;
 var nonInteractiveLiskyArg = process.argv[1];
-var nonInteractiveCommandArg = process.argv[2];
-var nonInteractiveOptions;
-var commandArgIsFilePath = false;
+// eslint-disable-next-line import/order
 
-process.env.LISKY_CONFIG_DIR = process.env.LISKY_CONFIG_DIR || `${os.homedir()}/.lisky`;
-configLockfilePath = `${process.env.LISKY_CONFIG_DIR}/config.lock`;
+var nonInteractiveCommandArg = process.argv[2];
+
+process.env.LISKY_CONFIG_DIR = process.env.LISKY_CONFIG_DIR || _os2.default.homedir() + '/.lisky';
+var configLockfilePath = process.env.LISKY_CONFIG_DIR + '/config.lock';
 
 process.env.NON_INTERACTIVE_MODE = !(nonInteractiveLiskyArg.endsWith('lisky') && process.argv.length === 2);
 
@@ -38,37 +48,39 @@ function exit(code) {
 	process.exit(code || 0);
 }
 
-if (!semver.satisfies(process.version, packageJSON.engines.node)) {
-	console.error('\x1b[31m', `ERROR: Requires Node.js version ${semver.clean(packageJSON.engines.node)}, but was started with version ${semver.clean(process.version)}.`, '\x1b[0m');
+if (!_semver2.default.satisfies(process.version, _package2.default.engines.node)) {
+	console.error('\x1b[31m', 'ERROR: Requires Node.js version ' + _semver2.default.clean(_package2.default.engines.node) + ', but was started with version ' + _semver2.default.clean(process.version) + '.', '\x1b[0m');
 	exit();
 }
 
-// eslint-disable-next-line default-case
 switch (process.argv[2]) {
-case 'clean':
-	console.warn('\x1b[33m', 'WARNING: Attempting to remove configuration lockfile. I hope you know what you’re doing.', '\x1b[0m');
-	lockfile.unlockSync(configLockfilePath);
-	exit();
-	break;
-case '--version':
-case '-v':
-	console.info(packageJSON.version);
-	exit();
-	break;
-default:
+	case 'clean':
+		console.warn('\x1b[33m', 'WARNING: Attempting to remove configuration lockfile. I hope you know what you’re doing.', '\x1b[0m');
+		_lockfile2.default.unlockSync(configLockfilePath);
+		exit();
+		break;
+	case '--version':
+	case '-v':
+		console.info(_package2.default.version);
+		exit();
+		break;
+	default:
 	// continue...
 }
 
-lisky = require('../dist').default;
-execFile = require('../dist/exec_file').default;
+var lisky = require('../dist').default;
+var execFile = require('../dist/exec_file').default;
 
 // eslint-disable-next-line no-underscore-dangle
-firstCommandWords = lisky.commands.map(c => c._name.split(' ')[0]);
+var firstCommandWords = lisky.commands.map(function (c) {
+	return c._name.split(' ')[0];
+});
 
+var commandArgIsFilePath = false;
 if (firstCommandWords.indexOf(nonInteractiveCommandArg) === -1) {
 	commandArgIsFilePath = true;
 	try {
-		nonInteractiveOptions = process.argv.slice(3);
+		var nonInteractiveOptions = process.argv.slice(3);
 		execFile(lisky, nonInteractiveCommandArg, nonInteractiveOptions, exit);
 	} catch (error) {
 		commandArgIsFilePath = false;
@@ -76,7 +88,5 @@ if (firstCommandWords.indexOf(nonInteractiveCommandArg) === -1) {
 }
 
 if (!commandArgIsFilePath) {
-	module.exports = process.env.NON_INTERACTIVE_MODE === 'true'
-		? (lisky.parse(process.argv))
-		: lisky;
+	module.exports = process.env.NON_INTERACTIVE_MODE === 'true' ? lisky.parse(process.argv) : lisky;
 }
