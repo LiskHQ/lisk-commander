@@ -121,7 +121,8 @@ function setUpLiskElementsAPIStubs() {
 		node: {
 			getConstants: sandbox.stub().resolves(broadcastSignaturesResponse),
 			getStatus: sandbox.stub().resolves(broadcastSignaturesResponse),
-			getForgingStatus: sandbox.stub().resolves(broadcastSignaturesResponse),
+			getForgingStatus: sandbox.stub().resolves(queryDefaultResult),
+			updateForgingStatus: sandbox.stub().resolves(queryDefaultResult),
 		},
 	});
 }
@@ -235,6 +236,12 @@ export function setUpCommandBroadcastTransaction() {
 export function setUpCommandCreateAccount() {
 	setUpCryptoStubs();
 	setUpMnemonicStubs();
+}
+
+export function setUpCommandUpdateForgingStatus() {
+	setUpInputStubs();
+	setUpLiskElementsCryptoStubs();
+	setUpLiskElementsAPIStubs.call(this);
 }
 
 export function setUpCommandCreateTransactionTransfer() {
