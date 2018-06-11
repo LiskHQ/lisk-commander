@@ -73,3 +73,39 @@ export function theLiskAPIInstanceShouldHaveCurrentNodeEqualTo() {
 	const node = getFirstQuotedString(this.test.title);
 	return expect(liskAPIInstance.currentNode).to.equal(node);
 }
+
+export function itShouldResolveToAnObjectWhichIncludesTheNodeStatus() {
+	const { nodeStatus, returnValue } = this.test.ctx;
+	return returnValue.then(res => {
+		Object.entries(nodeStatus).forEach(([key, value]) => {
+			expect(res).to.have.property(key);
+			expect(res[key]).to.equal(value);
+		});
+	});
+}
+
+export function itShouldResolveToAnObjectWhichIncludesTheNodeConstants() {
+	const { nodeConstants, returnValue } = this.test.ctx;
+	return returnValue.then(res => {
+		Object.entries(nodeConstants).forEach(([key, value]) => {
+			expect(res).to.have.property(key);
+			expect(res[key]).to.equal(value);
+		});
+	});
+}
+
+export function itShouldResolveToAnObjectWhichHaveKeyEqualTo() {
+	const { returnValue } = this.test.ctx;
+	const key = getFirstQuotedString(this.test.title);
+	return expect(returnValue)
+		.to.eventually.be.an('object')
+		.and.have.property(key);
+}
+
+export function itShouldResolveToAnObjectWhichDoesNotHaveKeyEqualTo() {
+	const { returnValue } = this.test.ctx;
+	const key = getFirstQuotedString(this.test.title);
+	return expect(returnValue)
+		.to.eventually.be.an('object')
+		.and.not.have.property(key);
+}
