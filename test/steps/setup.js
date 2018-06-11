@@ -183,6 +183,7 @@ const setUpTransactionsStubs = () => {
 	transactions.utils = {
 		verifyTransaction: sandbox.stub().returns(true),
 		prepareTransaction: sandbox.stub(),
+		validatePublicKey: sandbox.stub(),
 	};
 };
 
@@ -239,8 +240,9 @@ export function setUpCommandCreateAccount() {
 }
 
 export function setUpCommandUpdateForgingStatus() {
+	setUpTransactionsStubs();
 	setUpInputStubs();
-	setUpLiskElementsCryptoStubs();
+	setUpInputUtilsStubs();
 	setUpLiskElementsAPIStubs.call(this);
 }
 
