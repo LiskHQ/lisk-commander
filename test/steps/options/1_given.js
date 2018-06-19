@@ -161,6 +161,11 @@ export function anOptionsObjectWithPassphraseSetTo() {
 	this.test.ctx.options = { passphrase: passphraseSource };
 }
 
+export function aNumberOfAccounts() {
+	const numberOfAccounts = getFirstQuotedString(this.test.parent.title);
+	this.test.ctx.options = { number: numberOfAccounts };
+}
+
 export function anOptionsObjectWithSecondPassphraseSetTo() {
 	const secondPassphraseSource = getFirstQuotedString(this.test.parent.title);
 	this.test.ctx.options = { 'second-passphrase': secondPassphraseSource };

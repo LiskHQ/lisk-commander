@@ -135,12 +135,14 @@ export function itShouldResolveToAnObjectWithThePassphraseThePrivateKeyThePublic
 		keys: { privateKey, publicKey },
 		address,
 	} = this.test.ctx;
-	const expectedObject = {
-		passphrase,
-		privateKey,
-		publicKey,
-		address,
-	};
+	const expectedObject = [
+		{
+			passphrase,
+			privateKey,
+			publicKey,
+			address,
+		},
+	];
 	return expect(returnValue).to.eventually.eql(expectedObject);
 }
 

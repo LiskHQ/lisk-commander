@@ -69,10 +69,17 @@ const unvotesDescription = `Specifies the public keys for the delegate candidate
 const noSignatureDescription =
 	'Creates the transaction without a signature. Your passphrase will therefore not be required.';
 
+const numberOfAccountsDescription =
+	'Creates the number of accounts provided as input';
+
 const options = {
 	json: ['-j, --json', jsonDescription],
 	message: ['-m, --message <source>', messageDescription],
 	noSignature: ['--no-signature', noSignatureDescription],
+	numberOfAccounts: [
+		'-n, --number <numberOfAccounts>',
+		numberOfAccountsDescription,
+	],
 	passphrase: ['-p, --passphrase <source>', passphraseDescription],
 	secondPassphrase: [
 		'-s, --second-passphrase <source>',
