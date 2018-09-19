@@ -52,6 +52,9 @@
 	},
 	"oclif": {
 		"commands": "./dist/commands",
+		"hooks": {
+			"init": "./dist/hooks/init/pipe"
+		},
 		"bin": "lisk",
 		"plugins": [
 			"@oclif/plugin-help"
